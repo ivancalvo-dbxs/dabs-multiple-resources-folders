@@ -1,0 +1,12 @@
+# Production only. Resources get here by being promoted from resources-dev/.
+targets:
+  production:
+    resources:
+      sql_warehouses:
+        project_warehouse:
+          name: "${bundle.name} Warehouse"
+          cluster_size: 2X-Small
+          auto_stop_mins: 10
+          # Serverless requires the PRO warehouse type.
+          warehouse_type: PRO
+          enable_serverless_compute: true

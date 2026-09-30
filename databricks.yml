@@ -1,0 +1,48 @@
+bundle:
+  # Project name (don't use spaces, instead use hyphens or underscores)
+  name: multiple-resources-folders
+
+variables:
+  catalog:
+    description: "Catalog where the pipeline creates its schema and tables"
+    default: ivancalvo_playground_catalog
+  service_principal_id:
+    description: "Application ID of the service principal production runs as (Jenkins sets it from DATABRICKS_CLIENT_ID)"
+
+# `include` is only supported at the root, not per target.
+# Each file scopes itself with a `targets.<target>` block instead:
+# resources-dev/ files only deploy to development, resources-prod/ files only to production.
+include:
+  - resources-dev/*.yml
+  - resources-prod/*.yml
+
+workspace:
+  # Root_path is per user level, multiple users are not going to override the existing version
+  root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
+
+targets:
+  development:
+    default: true
+    mode: development
+    variables:
+      # Only production uses run_as; development deploys and runs as the current user.
+      service_principal_id: unused-in-development
+    workspace:
+      host: https://my-workspace.cloud.databricks.com
+
+    sync:
+      exclude:
+        - resources-prod/*.yml
+
+  production:
+    mode: production
+    run_as:
+      service_principal_name: ${var.service_principal_id}
+    workspace:
+      host: https://my-workspace.cloud.databricks.com
+      # Production is deployed by the Jenkins service principal, so its path owns the single production copy.
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
+
+    sync:
+      exclude:
+        - resources-dev/*.yml

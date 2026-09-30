@@ -1,0 +1,13 @@
+# Development only. To promote: move this file to resources-prod/ and rename `development:` to `production:`.
+# It runs demo_pipeline, so promote resources-dev/pipeline.yml together with it.
+targets:
+  development:
+    resources:
+      jobs:
+        demo_job:
+          name: "${bundle.name} Job"
+          description: "Refreshes the demo pipeline."
+          tasks:
+            - task_key: run_pipeline
+              pipeline_task:
+                pipeline_id: ${resources.pipelines.demo_pipeline.id}

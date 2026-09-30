@@ -1,0 +1,18 @@
+# Development only. To promote: move this file to resources-prod/ and rename `development:` to `production:`.
+targets:
+  development:
+    resources:
+      schemas:
+        demo_schema:
+          name: multiple_resources_folders
+          catalog_name: ${var.catalog}
+
+      pipelines:
+        demo_pipeline:
+          name: "${bundle.name} Pipeline"
+          catalog: ${var.catalog}
+          schema: ${resources.schemas.demo_schema.name}
+          libraries:
+            - file:
+                path: ../src/pipeline.sql
+          serverless: true

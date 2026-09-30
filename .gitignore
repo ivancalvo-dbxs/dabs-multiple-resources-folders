@@ -1,0 +1,5 @@
+.DS_Store
+.databricks
+.vscode
+# Databricks CLI downloaded by the Jenkins pipeline, kept out of the bundle sync.
+bin/
