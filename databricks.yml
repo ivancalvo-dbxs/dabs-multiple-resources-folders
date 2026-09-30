@@ -1,0 +1,27 @@
+bundle:
+  # Project name (don't use spaces, instead use hyphens or underscores)
+  name: multiple-resources-folders
+
+variables:
+  catalog:
+    description: "Catalog where the pipeline creates its schema and tables"
+    default: ivancalvo_playground_catalog
+
+# `include` is only supported at the root, not per target.
+# Each file scopes itself with a `targets.<target>` block instead:
+# resources-dev/ files only deploy to development, resources-prod/ files only to production.
+include:
+  - resources-dev/*.yml
+  - resources-prod/*.yml
+
+targets:
+  development:
+    default: true
+    mode: development
+    workspace:
+      host: https://fevm-ivancalvo-playground.cloud.databricks.com
+
+  production:
+    mode: production
+    workspace:
+      host: https://fevm-ivancalvo-playground.cloud.databricks.com
