@@ -28,7 +28,7 @@ targets:
       # Only production uses run_as; development deploys and runs as the current user.
       service_principal_id: unused-in-development
     workspace:
-      host: https://fevm-ivancalvo-playground.cloud.databricks.com
+      host: https://my-workspace.cloud.databricks.com
 
     sync:
       exclude:
@@ -39,7 +39,7 @@ targets:
     run_as:
       service_principal_name: ${var.service_principal_id}
     workspace:
-      host: https://fevm-ivancalvo-playground.cloud.databricks.com
+      host: https://my-workspace.cloud.databricks.com
       # Production is deployed by the Jenkins service principal, so its path owns the single production copy.
       root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
 

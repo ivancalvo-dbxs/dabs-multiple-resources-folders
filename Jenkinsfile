@@ -9,7 +9,7 @@ pipeline {
 
     environment {
         DATABRICKS_CLI_VERSION   = '1.19.0'
-        DATABRICKS_HOST          = 'https://fevm-ivancalvo-playground.cloud.databricks.com'
+        DATABRICKS_HOST          = 'https://my-workspace.cloud.databricks.com'
         DATABRICKS_CLIENT_ID     = credentials('databricks-client-id')
         DATABRICKS_CLIENT_SECRET = credentials('databricks-client-secret')
         BUNDLE_VAR_catalog       = "${params.CATALOG}"
