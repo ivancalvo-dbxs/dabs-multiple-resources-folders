@@ -28,15 +28,19 @@ pipeline {
             }
         }
 
+        // run_as uses the same service principal Jenkins authenticates as.
+        // It is set in the shell (single quotes) so Groovy never interpolates the credential.
         stage('Validate') {
             steps {
-                sh 'bin/databricks bundle validate --target production'
+                sh 'BUNDLE_VAR_service_principal_id="$DATABRICKS_CLIENT_ID" bin/databricks bundle validate --target production'
             }
         }
 
         stage('Deploy') {
+            // Multibranch jobs only deploy main; single-branch jobs have no BRANCH_NAME and always deploy.
+            when { expression { !env.BRANCH_NAME || env.BRANCH_NAME == 'main' } }
             steps {
-                sh 'bin/databricks bundle deploy --target production'
+                sh 'BUNDLE_VAR_service_principal_id="$DATABRICKS_CLIENT_ID" bin/databricks bundle deploy --target production'
             }
         }
     }

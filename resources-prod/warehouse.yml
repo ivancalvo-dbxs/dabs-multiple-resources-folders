@@ -7,4 +7,6 @@ targets:
           name: "${bundle.name} Warehouse"
           cluster_size: 2X-Small
           auto_stop_mins: 10
+          # Serverless requires the PRO warehouse type.
+          warehouse_type: PRO
           enable_serverless_compute: true
