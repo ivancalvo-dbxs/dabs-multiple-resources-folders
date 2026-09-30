@@ -25,3 +25,5 @@ targets:
     mode: production
     workspace:
       host: https://fevm-ivancalvo-playground.cloud.databricks.com
+      # Production is deployed by the Jenkins service principal, so its path owns the single production copy.
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
